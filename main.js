@@ -29,20 +29,18 @@ function getComputerChoice (choices) {
     return choices[Math.floor(Math.random()*(choices.length))];  
 }
 
-function updateChoice(button, computerSelection) {
+function updateChoice(button, computerSelect) {
     playerSelection = button;
-    computerSelection = getComputerChoice(choices);
+    computerSelection = computerSelect;
 
     playerChoice.textContent = `You chose ${button}.`;
-    computerChoice.textContent = `Computer chose ${computerSelection}.`;
+    computerChoice.textContent = `Computer chose ${computerSelection}.`; // different computerSelection
 }
 
 // Function plays a single round of Rock Paper Scissors and declares winner of the round.
 
 function playRound (playerSelection, computerSelection) {
-    
-    
-
+        
     if (playerSelection === computerSelection) {
         result.textContent = `It's a tie. You chose ${playerSelection}. Computer chose ${computerSelection}.`;
     } else if (playerSelection === "Rock" && computerSelection === "Scissors" || playerSelection === "Scissors" && computerSelection === "Paper" || playerSelection === "Paper" && computerSelection === "Rock" ) {
@@ -51,7 +49,7 @@ function playRound (playerSelection, computerSelection) {
     } else {
         computerScore++;
         result.textContent = `You lost. ${computerSelection} beats ${playerSelection}.`; 
-    }
+    } // different computerSelection
 }
 
 function scores() {
@@ -68,7 +66,6 @@ function displayResult() {
         } else finalResult.textContent = "You lost.";
         disableButtons();
     }
-
 } 
 
 function restartGame() {

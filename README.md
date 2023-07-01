@@ -28,3 +28,7 @@ Rock, paper, scissors is a fun and easy hand game that anyone can learn and enjo
 ### Stage 1 - Browser Console Version 
 - [x]  Firm up concepts of functions. 
 - [x]  
+
+### Stage 2 - UI Version 
+- [x]  Improved understanding of Javascript functions. 
+- [x]  
