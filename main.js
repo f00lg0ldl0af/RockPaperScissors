@@ -1,98 +1,123 @@
 // Declare variables
+const choices = ['Rock', 'Paper', 'Scissors'];
+let playerScore = 0;
+let computerScore = 0;
+let playerSelection, computerSelection;
+
+const rock = document.querySelector('#rock');
+const paper = document.querySelector('#paper');
+const scissors = document.querySelector('#scissors');
+
+const restartBtn = document.getElementById('restartBtn')
+
+
+const container = document.querySelector('#container');
+const playerChoice = document.createElement('div');
+const computerChoice = document.createElement('div');
+container.append(playerChoice);
+container.append(computerChoice);
+
+const myScore = document.querySelector('#myScore');
+const compScore = document.querySelector('#compScore');
+const result = document.querySelector('.scores');
+
+const finalResult = document.querySelector('#finalResult');
 
 
 // Function returns either 'Rock', 'Paper' or 'Scissors'
-function getComputerChoice () {
-    const computerSelection = ['Rock', 'Paper', 'Scissors'];
-    return computerSelection[Math.floor(Math.random()*computerSelection.length)];  
-}
-// console.log(getComputerChoice())
-
-// Function ensures player enters valid characters only
-function alphaCharOnly(playerSelection) {
-    let letters = /^[a-zA-Z]+$/;
-    if(letters.test(playerSelection)) {
-        return true;
-    } else {
-        alert('Invalid input. Please enter alpha characters only.');
-        return false;
-    }
-}
-//console.log(alphaCharOnly())
-
-// Function returns player choice. 
-function getPlayerChoice() {
-    let playerSelection = prompt("Choose Rock, Paper or Scissors!");
-    // Given this IF loop, console.log(getPlayerChoice()) returns undefined variable. How do I work around this? 
-    
-    //if (!alphaCharOnly(playerSelection)){
-    //    getPlayerChoice();
-    //}; /* Inner function can use outer function's arguments and variables, but outer function cannot use the arguments and variables of the inner function */ 
-    return playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1).toLowerCase();
-
+function getComputerChoice (choices) {
+    return choices[Math.floor(Math.random()*(choices.length))];  
 }
 
-//console.log(getPlayerChoice())
+function updateChoice(button, computerSelection) {
+    playerSelection = button;
+    computerSelection = getComputerChoice(choices);
+
+    playerChoice.textContent = `You chose ${button}.`;
+    computerChoice.textContent = `Computer chose ${computerSelection}.`;
+}
 
 // Function plays a single round of Rock Paper Scissors and declares winner of the round.
 
 function playRound (playerSelection, computerSelection) {
+    
+    
 
     if (playerSelection === computerSelection) {
-        return `It's a tie. You chose ${playerSelection}. Computer chose ${computerSelection}.`;
-    } else if (playerSelection === "Rock" && computerSelection === "Scissors" ) {
-        return `You won. ${playerSelection} beats ${computerSelection}.` 
-    } else if (playerSelection === "Rock" && computerSelection === "Paper" ) {
-        return `You lost. ${computerSelection} beats ${playerSelection}.` 
-    } else if (playerSelection === "Scissors" && computerSelection === "Paper" ) {
-        return `You won. ${playerSelection} beats ${computerSelection}.` 
-    } else if (playerSelection === "Scissors" && computerSelection === "Rock" ) {
-        return `You lost. ${computerSelection} beats ${playerSelection}.` 
-    } else if (playerSelection === "Paper" && computerSelection === "Rock" ) {
-        return `You won. ${playerSelection} beats ${computerSelection}.` 
-    } else if (playerSelection === "Paper" && computerSelection === "Scissors" ) {
-        return `You lost. ${computerSelection} beats ${playerSelection}.` 
-    }
-}
-
-//const playerSelection = "Rock";
-//const computerSelection = getComputerChoice();
-//console.log(playRound(playerSelection, computerSelection)) 
-
-// Function plays a 5-round game that keep scores and reports a winner or a loser at the end.
-function game() {
-    let playerScore =  0;
-    let computerScore = 0;
-
-    for (let i = 0; i < 6; i++){
-        const playerSelection = getPlayerChoice();
-        console.log(playerSelection)
-
-        const computerSelection = getComputerChoice();
-        console.log(computerSelection)
-        
-        const results = playRound(playerSelection,computerSelection);
-        console.log(results)
-
-        if (results === `You won. ${playerSelection} beats ${computerSelection}.`) {
-            playerScore++;
-        } else if (results === `It's a tie. You chose ${playerSelection}. Computer chose ${computerSelection}.`) {
-            playerScore;
-            computerScore;
-        } else {
-            computerScore++;
-        }
-    console.log("Player Score: ", playerScore)
-    console.log("Computer Score: ", computerScore)   
-    }
-    
-    if (playerScore > computerScore) {
-        return "Player won."
-    } else if (playerScore < computerScore) {
-        return "Computer won."
+        result.textContent = `It's a tie. You chose ${playerSelection}. Computer chose ${computerSelection}.`;
+    } else if (playerSelection === "Rock" && computerSelection === "Scissors" || playerSelection === "Scissors" && computerSelection === "Paper" || playerSelection === "Paper" && computerSelection === "Rock" ) {
+        playerScore++;
+        result.textContent = `You won. ${playerSelection} beats ${computerSelection}.`; 
     } else {
-        "It's a tie."
+        computerScore++;
+        result.textContent = `You lost. ${computerSelection} beats ${playerSelection}.`; 
     }
 }
-//console.log(game())
 
+function scores() {
+    const final = document.querySelector('.scores');
+    myScore.textContent = `Your Score: ${playerScore}`;
+    compScore.textContent = `Computer Score: ${computerScore}`;
+    final.append(myScore,compScore);
+}
+
+function displayResult() {
+    if (playerScore === 5 || computerScore === 5) {
+        if (playerScore > computerScore) {
+            finalResult.textContent = "You won.";
+        } else finalResult.textContent = "You lost.";
+        disableButtons();
+    }
+
+} 
+
+function restartGame() {
+    playerScore = 0;
+    computerScore = 0;
+    myScore.textContent = `Your Score: ${playerScore}`;
+    compScore.textContent = `Computer Score: ${computerScore}`;
+    result.textContent = "";
+    finalResult.textContent = "";
+    playerChoice.textContent = "";
+    computerChoice.textContent = "";
+    ableButtons();
+}
+
+function disableButtons() {
+    rock.disabled = true;
+    paper.disabled = true;
+    scissors.disabled = true;
+}
+
+function ableButtons() {
+    rock.disabled = false;
+    paper.disabled = false;
+    scissors.disabled = false;
+}
+
+rock.addEventListener('click', () => {
+    computerSelection = getComputerChoice(choices);
+    updateChoice("Rock",computerSelection);
+    playRound(playerSelection, computerSelection);
+    scores();
+    displayResult();
+});
+
+paper.addEventListener('click', () => {
+    computerSelection = getComputerChoice(choices);
+    updateChoice("Paper",computerSelection);
+    playRound(playerSelection, computerSelection);
+    scores();
+    displayResult();
+});
+
+scissors.addEventListener('click', () => {
+    computerSelection = getComputerChoice(choices);
+    updateChoice("Scissors",computerSelection);
+    playRound(playerSelection, computerSelection);
+    scores();
+    displayResult();
+
+});
+
+restartBtn.addEventListener('click', restartGame)
