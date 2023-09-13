@@ -34,7 +34,7 @@ function updateChoice(button, computerSelect) {
     computerSelection = computerSelect;
 
     playerChoice.textContent = `You chose ${button}.`;
-    computerChoice.textContent = `Computer chose ${computerSelection}.`; // different computerSelection
+    computerChoice.textContent = `Computer chose ${computerSelection}.`; 
 }
 
 // Function plays a single round of Rock Paper Scissors and declares winner of the round.
@@ -49,7 +49,7 @@ function playRound (playerSelection, computerSelection) {
     } else {
         computerScore++;
         result.textContent = `You lost. ${computerSelection} beats ${playerSelection}.`; 
-    } // different computerSelection
+    } 
 }
 
 function scores() {
